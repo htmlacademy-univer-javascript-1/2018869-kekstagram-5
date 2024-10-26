@@ -20,14 +20,22 @@ function extractDigits(input) {
   return parseInt(digits.join(''), 10);
 }
 
+// eslint-disable-next-line no-console
 console.log(isStringLengthValid('Hello', 10)); //true
+// eslint-disable-next-line no-console
 console.log(isStringLengthValid('Hello, World!', 10)); //false
 
+// eslint-disable-next-line no-console
 console.log(isPalindrome('Лёша на полке клопа нашёл ')); // true
+// eslint-disable-next-line no-console
 console.log(isPalindrome('Кекс')); // false
 
+// eslint-disable-next-line no-console
 console.log(extractDigits('2023 год')); // 2023
+// eslint-disable-next-line no-console
 console.log(extractDigits('ECMAScript 2022')); // 2022
+// eslint-disable-next-line no-console
 console.log(extractDigits('1 кефир, 0.5 батона')); // 105
+// eslint-disable-next-line no-console
 console.log(extractDigits(-1)); // 1
 
