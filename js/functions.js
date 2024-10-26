@@ -20,22 +20,35 @@ function extractDigits(input) {
   return parseInt(digits.join(''), 10);
 }
 
-// eslint-disable-next-line no-console
-console.log(isStringLengthValid('Hello', 10)); //true
-// eslint-disable-next-line no-console
-console.log(isStringLengthValid('Hello, World!', 10)); //false
+//console.log(isStringLengthValid('Hello', 10)); //true
+//console.log(isStringLengthValid('Hello, World!', 10)); //false
 
-// eslint-disable-next-line no-console
-console.log(isPalindrome('Лёша на полке клопа нашёл ')); // true
-// eslint-disable-next-line no-console
-console.log(isPalindrome('Кекс')); // false
+//console.log(isPalindrome('Лёша на полке клопа нашёл ')); // true
+//console.log(isPalindrome('Кекс')); // false
 
-// eslint-disable-next-line no-console
-console.log(extractDigits('2023 год')); // 2023
-// eslint-disable-next-line no-console
-console.log(extractDigits('ECMAScript 2022')); // 2022
-// eslint-disable-next-line no-console
-console.log(extractDigits('1 кефир, 0.5 батона')); // 105
-// eslint-disable-next-line no-console
-console.log(extractDigits(-1)); // 1
+//console.log(extractDigits('2023 год')); // 2023
+//console.log(extractDigits('ECMAScript 2022')); // 2022
+//console.log(extractDigits('1 кефир, 0.5 батона')); // 105
+//console.log(extractDigits(-1)); // 1
 
+function isMeetingWithinWorkHours(workStart, workEnd, meetingStart, meetingDuration) {
+  // Функция для преобразования времени в минуты
+  function timeToMinutes(time) {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+
+  // Преобразуем время в минуты
+  const workStartMinutes = timeToMinutes(workStart);
+  const workEndMinutes = timeToMinutes(workEnd);
+  const meetingStartMinutes = timeToMinutes(meetingStart);
+  const meetingEndMinutes = meetingStartMinutes + meetingDuration;
+
+  // Проверяем, укладывается ли встреча в рабочие часы
+  return meetingStartMinutes >= workStartMinutes && meetingEndMinutes <= workEndMinutes;
+}
+
+console.log(isMeetingWithinWorkHours("9:00", "17:00", "10:00", 30)); // true
+console.log(isMeetingWithinWorkHours("9:00", "17:00", "16:30", 60)); // false
+console.log(isMeetingWithinWorkHours("8:00", "18:00", "7:30", 60)); // false
+console.log(isMeetingWithinWorkHours("8:00", "18:00", "9:00", 120)); // true
