@@ -16,7 +16,7 @@ function openBigPicture(data) {
 
   // Очищаем список комментариев
   socialComments.innerHTML = '';
-  data.comments.forEach(comment => {
+  data.comments.forEach((comment) => {
     const commentElement = document.createElement('li');
     commentElement.className = 'social__comment';
     commentElement.innerHTML = `
