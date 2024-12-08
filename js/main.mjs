@@ -1,10 +1,9 @@
 import {generateComments} from './comments.mjs';
 import {generatePhotos} from './photos.mjs';
+import { renderPictures } from './PictureRenderer.js';
 
-const comments = generateComments(30);
-// eslint-disable-next-line no-console
-console.log(comments);
+const numPhotos = 25; // Количество фотографий, которое нужно сгенерировать
+const photos = generatePhotos(numPhotos); // Генерируем массив фотографий
 
-const photos = generatePhotos(25);
-// eslint-disable-next-line no-console
-console.log(photos);
+// Вызов функции для отображения миниатюр
+renderPictures(photos);
