@@ -15,8 +15,10 @@ const pristine = new Pristine(formElement, {
 // Валидация хэш-тегов
 const validateHashtags = (value) => {
   const hashtags = value.split(' ').filter(Boolean); // Разделяем по пробелам и убираем пустые
-  if (hashtags.length > 5) return false; // Не более 5 хэш-тегов
-  return hashtags.every(tag => /^#[A-Za-zА-Яа-я0-9]{1,19}$/.test(tag)); // Проверяем каждый тег
+  if (hashtags.length > 5) {
+    return false;
+  } // Не более 5 хэш-тегов
+  return hashtags.every((tag) => /^#[A-Za-zА-Яа-я0-9]{1,19}$/.test(tag)); // Проверяем каждый тег
 };
 
 // Добавляем валидацию для полей
@@ -43,7 +45,8 @@ closeButton.addEventListener('click', () => {
 });
 
 // Прекращаем распространение события нажатия клавиш Esc, если фокус на поле ввода
-document.querySelectorAll('input, textarea').forEach(input => {
+document.querySelectorAll('input, textarea').forEach((input) => {
+  // eslint-disable-next-line no-unused-vars
   input.addEventListener('focus', (event) => {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
