@@ -2,7 +2,7 @@ import { showAlert, successMessage, isEscapeKey } from './utils.js';
 import { sendData } from './api.js';
 import { pristine } from './validation.js';
 import { createPicture } from './render.js';
-// бессмысленный коммент 2
+
 
 const form = document.querySelector('.img-upload__form');
 const uploadFile = form.querySelector('#upload-file');
@@ -78,3 +78,4 @@ const onFormSubmit = (evt) => {
 };
 
 form.addEventListener('submit', onFormSubmit);
+
