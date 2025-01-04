@@ -62,8 +62,9 @@ const EFFECTS = [
 ];
 
 const DEFAULT_EFFECT = EFFECTS[0];
-let chosenEffect = DEFAULT_EFFECT;
-const isDefault = () => chosenEffect === DEFAULT_EFFECT;
+let currentEffect = DEFAULT_EFFECT;
+
+const isDefault = () => currentEffect === DEFAULT_EFFECT;
 
 noUiSlider.create(slider, {
   range: {
@@ -75,16 +76,15 @@ noUiSlider.create(slider, {
   connect: 'lower',
 });
 
-// eslint-disable-next-line no-shadow
-const updateSlider = (chosenEffect) => {
+const updateSlider = (effect) => {
   slider.classList.remove('hidden');
   slider.noUiSlider.updateOptions({
     range: {
-      min: chosenEffect.min,
-      max: chosenEffect.max,
+      min: effect.min,
+      max: effect.max,
     },
-    step: chosenEffect.step,
-    start: chosenEffect.max,
+    step: effect.step,
+    start: effect.max,
   });
 
   if (isDefault()) {
@@ -96,22 +96,22 @@ const onFormChange = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
-  chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
-  updateSlider(chosenEffect);
+  currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+  updateSlider(currentEffect);
 };
 
 const onSliderUpdate = () => {
   image.style.filter = 'none';
   image.className = '';
   const effectValue = slider.noUiSlider.get();
-  image.classList.add(`effects__preview--${chosenEffect.name}`);
-  image.style.filter = `${chosenEffect.style}(${effectValue}${chosenEffect.unit})`;
+  image.classList.add(`effects__preview--${currentEffect.name}`);
+  image.style.filter = `${currentEffect.style}(${effectValue}${currentEffect.unit})`;
 };
 
 slider.noUiSlider.on('update', onSliderUpdate);
 form.addEventListener('change', onFormChange);
 
-//Масштаб
+// Масштаб
 const scaleImage = (value = DEFAULT_SCALE) => {
   image.style.transform = `scale(${value / 100})`;
   scaleInput.value = `${value}%`;
@@ -123,7 +123,7 @@ const onSmallerButtonClick = () => {
   if (newValue >= MIN_SCALE) {
     scaleImage(newValue);
   } else {
-    smallerButton.setAttribute('disabled');
+    smallerButton.setAttribute('disabled', true);
   }
 };
 
@@ -133,7 +133,7 @@ const onBiggerButtonClick = () => {
   if (newValue <= DEFAULT_SCALE) {
     scaleImage(newValue);
   } else {
-    biggerButton.setAttribute('disabled');
+    biggerButton.setAttribute('disabled', true);
   }
 };
 

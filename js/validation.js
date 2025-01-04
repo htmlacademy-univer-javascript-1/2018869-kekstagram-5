@@ -1,7 +1,7 @@
 const MAX_HASHTAG_COUNT = 5;
 const MAX_DESC_LENGTH = 140;
 const Errors = {
-  invalidCount: 'Колчичество хэштегов больше пяти!',
+  invalidCount: 'Количество хэштегов больше пяти!',
   invalidUnique: 'Хэштеги не должны повторяться!',
   invalidReg: 'Некорректный хэштег!'
 };
@@ -35,7 +35,7 @@ const validateHashtags = (value) => {
   const lowCaseHashtags = hashtags.map((el) => el.toLowerCase());
   const uniqueHashtags = new Set(lowCaseHashtags);
 
-  if(uniqueHashtags.size !== hashtags.length){
+  if (uniqueHashtags.size !== hashtags.length) {
     errorType = 'invalidUnique';
     return false;
   }
@@ -53,6 +53,6 @@ const validateHashtags = (value) => {
 const validateDescription = (value) => value.length <= MAX_DESC_LENGTH;
 
 pristine.addValidator(hashtag, validateHashtags, () => Errors[errorType]);
-pristine.addValidator(description, validateDescription, 'Превышена длинна комментария!');
+pristine.addValidator(description, validateDescription, 'Превышена длина комментария!');
 
-export {validateHashtags, validateDescription, pristine};
+export { validateHashtags, validateDescription, pristine };

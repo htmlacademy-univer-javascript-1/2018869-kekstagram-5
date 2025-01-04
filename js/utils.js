@@ -24,7 +24,7 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
+  alertContainer.style.zIndex = 1000;
   alertContainer.style.position = 'absolute';
   alertContainer.style.top = 0;
   alertContainer.style.left = 0;
