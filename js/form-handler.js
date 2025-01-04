@@ -1,6 +1,7 @@
 import { showAlert, successMessage, isEscapeKey } from './utils.js';
 import { sendData } from './api.js';
 import { pristine } from './validation.js';
+import { createPicture } from './render.js';
 
 const form = document.querySelector('.img-upload__form');
 const uploadFile = form.querySelector('#upload-file');
@@ -14,7 +15,7 @@ const closeUploadOverlay = () => {
   pristine.reset();
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
-  document.removeEventListener('keydown', isEscapeKey);
+  document.removeEventListener('keydown',isEscapeKey);
 };
 
 const isTextFieldFocused = () =>
@@ -47,9 +48,12 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const onSendDataSuccess = () => {
+const onSendDataSuccess = (newPost) => {
   closeUploadOverlay();
   successMessage();
+  const picturesContainer = document.querySelector('.pictures');
+  const newPictureElement = createPicture(newPost);
+  picturesContainer.prepend(newPictureElement); // Добавляем новое изображение в начало списка
 };
 
 const onSendDataError = () => {
@@ -62,8 +66,11 @@ const onFormSubmit = (evt) => {
 
   if (isValid) {
     blockSubmitButton();
-    sendData(onSendDataSuccess, onSendDataError, new FormData(form));
-    unblockSubmitButton();
+    const formData = new FormData(form);
+    sendData((response) => {
+      onSendDataSuccess(response);
+      unblockSubmitButton();
+    }, onSendDataError, formData);
   } else {
     showAlert('Пожалуйста, исправьте ошибки в форме перед отправкой.');
   }

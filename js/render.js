@@ -30,4 +30,4 @@ const renderPictures = (pictures) => {
   picturesContainer.append(fragment);
 };
 
-export { renderPictures };
+export { renderPictures, createPicture };
