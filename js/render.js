@@ -1,51 +1,33 @@
-// Модуль для отрисовки миниатюр
-import { openBigPicture } from './bigPicture.js'; // Импортируем функцию
+import { openBigPicture } from './fullsize.js';
 
-const PictureRenderer = (() => {
-  const createPictureElement = ({ url, description, likes, comments }) => {
-    const pictureElement = document.createElement('div');
-    pictureElement.classList.add('picture');
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const picturesContainer = document.querySelector('.pictures');
 
-    const img = document.createElement('img');
-    img.src = url;
-    img.alt = description;
-    img.classList.add('picture__img');
+const createPicture = (data) => {
+  const { comments, description, likes, url } = data;
+  const picture = pictureTemplate.cloneNode(true);
 
-    const likesElement = document.createElement('div');
-    likesElement.classList.add('picture__likes');
-    likesElement.textContent = likes;
+  picture.querySelector('.picture__img').src = url;
+  picture.querySelector('.picture__img').alt = description;
+  picture.querySelector('.picture__comments').textContent = comments.length;
+  picture.querySelector('.picture__likes').textContent = likes;
 
-    const commentsElement = document.createElement('div');
-    commentsElement.classList.add('picture__comments');
-    commentsElement.textContent = comments.length; // Используем длину массива комментариев
+  picture.addEventListener('click', () => {
+    openBigPicture(data);
+  });
 
-    // Добавляем обработчик клика для открытия полноразмерного изображения
-    pictureElement.addEventListener('click', () => {
-      openBigPicture({ url, description, likes, comments });
-    });
+  return picture;
+};
 
-    pictureElement.appendChild(img);
-    pictureElement.appendChild(likesElement);
-    pictureElement.appendChild(commentsElement);
+const renderPictures = (pictures) => {
+  picturesContainer.querySelectorAll('.picture').forEach((element) => element.remove());
+  const fragment = document.createDocumentFragment();
+  pictures.forEach((picture) => {
+    const pictureElement = createPicture(picture);
+    fragment.append(pictureElement);
+  });
 
-    return pictureElement;
-  };
+  picturesContainer.append(fragment);
+};
 
-  const renderPictures = (picturesData) => {
-    const picturesContainer = document.querySelector('.pictures');
-    const fragment = document.createDocumentFragment();
-
-    picturesData.forEach((picture) => {
-      const pictureElement = createPictureElement(picture);
-      fragment.appendChild(pictureElement);
-    });
-
-    picturesContainer.appendChild(fragment);
-  };
-
-  return {
-    renderPictures,
-  };
-})();
-
-export { PictureRenderer };
+export { renderPictures, createPicture };
