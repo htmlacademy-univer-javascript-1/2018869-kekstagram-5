@@ -1,6 +1,8 @@
 const ALERT_SHOW_TIME = 5000;
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const successButton = successTemplate.querySelector('.success__button');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+const errorButton = errorTemplate.querySelector('.error__button');
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
@@ -23,17 +25,46 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-const successMessage = () => {
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    const successMessage = document.querySelector('.success');
+    const errorMessage = document.querySelector('.error');
+    if (successMessage) {
+      successMessage.remove();
+    }
+    if (errorMessage) {
+      errorMessage.remove();
+    }
+    document.removeEventListener('keydown', onDocumentKeydown);
+  }
+};
+
+const showSuccessMessage = () => {
   const fragment = document.createDocumentFragment();
   fragment.append(successTemplate);
   document.body.append(fragment);
+  document.addEventListener('keydown', onDocumentKeydown);
+};
+
+const showErrorMessage = () => {
+  const fragment = document.createDocumentFragment();
+  fragment.append(errorTemplate);
+  document.body.append(fragment);
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
 const onSuccessButtonCLick = () => {
   document.querySelector('.success').remove();
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const onErrorButtonCLick = () => {
+  document.querySelector('.error').remove();
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 successButton.addEventListener('click', onSuccessButtonCLick);
+errorButton.addEventListener('click', onErrorButtonCLick);
 
 function debounce (callback, timeoutDelay = 500) {
   let timeoutId;
@@ -46,5 +77,6 @@ function debounce (callback, timeoutDelay = 500) {
 
 export { isEscapeKey,
   showAlert,
-  successMessage,
+  showSuccessMessage,
+  showErrorMessage,
   debounce };

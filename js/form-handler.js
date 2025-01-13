@@ -1,4 +1,4 @@
-import { showAlert, successMessage, isEscapeKey } from './utils.js';
+import { showSuccessMessage, isEscapeKey, showErrorMessage} from './utils.js';
 import { sendData } from './api.js';
 import { pristine } from './validation.js';
 import { createPicture } from './render.js';
@@ -51,14 +51,15 @@ const unblockSubmitButton = () => {
 
 const onSendDataSuccess = (newPost) => {
   closeUploadOverlay();
-  successMessage();
+  showSuccessMessage();
   const picturesContainer = document.querySelector('.pictures');
   const newPictureElement = createPicture(newPost);
-  picturesContainer.prepend(newPictureElement); // Добавляем новое изображение в начало списка
+  picturesContainer.prepend(newPictureElement);
 };
 
 const onSendDataError = () => {
-  showAlert('Не удалось загрузить фотографию');
+  showErrorMessage();
+  unblockSubmitButton();
 };
 
 const onFormSubmit = (evt) => {
@@ -73,7 +74,7 @@ const onFormSubmit = (evt) => {
       unblockSubmitButton();
     }, onSendDataError, formData);
   } else {
-    showAlert('Пожалуйста, исправьте ошибки в форме перед отправкой.');
+    onSendDataError();
   }
 };
 

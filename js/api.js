@@ -13,12 +13,12 @@ const sendData = (onSuccess, onFail, body) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error('Не удалось отправить фото. Попробуйте еще раз');
+        onFail();
       }
-      onSuccess();
+      onSuccess(response);
     })
-    .catch((err) => {
-      onFail(err.message);
+    .catch(() => {
+      onFail();
     });
 };
 
