@@ -1,15 +1,16 @@
 import '../vendor/nouislider/nouislider.js';
 
-const scaleInput = document.querySelector('.scale__control--value');
-const smallerButton = document.querySelector('.scale__control--smaller');
-const biggerButton = document.querySelector('.scale__control--bigger');
-const image = document.querySelector('.img-upload__preview img');
-const slider = document.querySelector('.effect-level__slider');
-const form = document.querySelector('.img-upload__form');
-
 const SCALE_STEP = 25;
 const MIN_SCALE = 25;
 const DEFAULT_SCALE = 100;
+
+const form = document.querySelector('.img-upload__form');
+const scaleInput = form.querySelector('.scale__control--value');
+const smallerButton = form.querySelector('.scale__control--smaller');
+const biggerButton = form.querySelector('.scale__control--bigger');
+const image = form.querySelector('.img-upload__preview img');
+const slider = form.querySelector('.effect-level__slider');
+const effectLevelContainer = form.querySelector('.img-upload__effect-level');
 
 const EFFECTS = [
   {
@@ -76,8 +77,12 @@ noUiSlider.create(slider, {
   connect: 'lower',
 });
 
+slider.classList.add('hidden');
+effectLevelContainer.classList.add('hidden');
+
 const updateSlider = (effect) => {
   slider.classList.remove('hidden');
+  effectLevelContainer.classList.remove('hidden');
   slider.noUiSlider.updateOptions({
     range: {
       min: effect.min,
@@ -89,8 +94,10 @@ const updateSlider = (effect) => {
 
   if (isDefault()) {
     slider.classList.add('hidden');
+    effectLevelContainer.classList.add('hidden');
   }
 };
+
 
 const onFormChange = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
@@ -98,6 +105,8 @@ const onFormChange = (evt) => {
   }
   currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
   updateSlider(currentEffect);
+  slider.noUiSlider.set(currentEffect.max);
+  image.style.filter = `${currentEffect.style}(${currentEffect.max}${currentEffect.unit})`;
 };
 
 const onSliderUpdate = () => {
@@ -122,8 +131,6 @@ const onSmallerButtonClick = () => {
   const newValue = currentValue - SCALE_STEP;
   if (newValue >= MIN_SCALE) {
     scaleImage(newValue);
-  } else {
-    smallerButton.setAttribute('disabled', true);
   }
 };
 
@@ -132,8 +139,6 @@ const onBiggerButtonClick = () => {
   const newValue = currentValue + SCALE_STEP;
   if (newValue <= DEFAULT_SCALE) {
     scaleImage(newValue);
-  } else {
-    biggerButton.setAttribute('disabled', true);
   }
 };
 
@@ -144,4 +149,11 @@ const resetScale = () => {
   scaleImage(DEFAULT_SCALE);
 };
 
-export { resetScale };
+const resetEffects = () => {
+  currentEffect = DEFAULT_EFFECT;
+  updateSlider(currentEffect);
+  image.style.filter = 'none';
+  image.className = '';
+};
+
+export {resetScale, resetEffects};

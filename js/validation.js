@@ -1,10 +1,18 @@
 const MAX_HASHTAG_COUNT = 5;
 const MAX_DESC_LENGTH = 140;
+
 const Errors = {
   invalidCount: 'Количество хэштегов больше пяти!',
   invalidUnique: 'Хэштеги не должны повторяться!',
   invalidReg: 'Некорректный хэштег!'
 };
+
+const ErrorTypes = {
+  INVALID_COUNT: 'invalidCount',
+  INVALID_UNIQUE: 'invalidUnique',
+  INVALID_REG: 'invalidReg'
+};
+
 let errorType = '';
 
 const uploadForm = document.querySelector('.img-upload__form');
@@ -20,14 +28,14 @@ const pristine = new Pristine(uploadForm, {
 });
 
 const validateHashtags = (value) => {
-  if (value === undefined) {
+  if (!value.trim()) {
     return true;
   }
 
-  const hashtags = value.split(/\s+/).filter(Boolean);
+  const hashtags = value.split(/\s+/);
 
   if (hashtags.length > MAX_HASHTAG_COUNT) {
-    errorType = 'invalidCount';
+    errorType = ErrorTypes.INVALID_COUNT;
     return false;
   }
 
@@ -36,13 +44,13 @@ const validateHashtags = (value) => {
   const uniqueHashtags = new Set(lowCaseHashtags);
 
   if (uniqueHashtags.size !== hashtags.length) {
-    errorType = 'invalidUnique';
+    errorType = ErrorTypes.INVALID_UNIQUE;
     return false;
   }
 
   for (const hash of hashtags) {
     if (!hashtagType.test(hash)) {
-      errorType = 'invalidReg';
+      errorType = ErrorTypes.INVALID_REG;
       return false;
     }
   }

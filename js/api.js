@@ -1,25 +1,27 @@
-const getData = (onSuccess) => {
-  fetch('https://29.javascript.htmlacademy.pro/kekstagram/data')
+const URLS = {
+  'GET': 'https://29.javascript.htmlacademy.pro/kekstagram/data',
+  'POST': 'https://29.javascript.htmlacademy.pro/kekstagram'
+};
+
+const sendRequest = (onSuccess, onError, method, body) => {
+  fetch(
+    URLS[method],
+    {
+      method: method,
+      body: body,
+    },
+  )
     .then((response) => response.json())
-    .then((posts) => {
-      onSuccess(posts);
+    .then((data) => {
+      onSuccess(data);
+    })
+    .catch((err) => {
+      onError(err);
     });
 };
 
-const sendData = (onSuccess, onFail, body) => {
-  fetch('https://29.javascript.htmlacademy.pro/kekstagram', {
-    method: 'POST',
-    body,
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Не удалось отправить фото. Попробуйте еще раз');
-      }
-      onSuccess();
-    })
-    .catch((err) => {
-      onFail(err.message);
-    });
-};
+const getData = (onSuccess, onError) => sendRequest(onSuccess, onError, 'GET');
+
+const sendData = (onSuccess, onError, body) => sendRequest(onSuccess, onError, 'POST', body);
 
 export { getData, sendData };
