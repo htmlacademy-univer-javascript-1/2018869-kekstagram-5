@@ -4,16 +4,22 @@ const fileChooser = document.querySelector('#upload-file');
 const photoPreview = document.querySelector('.img-upload__preview img');
 const effectsPreview = document.querySelectorAll('.effects__preview');
 
-fileChooser.addEventListener('change', () => {
+const onUploadImageChange = () => {
   const file = fileChooser.files[0];
   const fileName = file.name.toLowerCase();
 
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    photoPreview.src = URL.createObjectURL(file);
-    effectsPreview.forEach((preview) => {
-      preview.style.backgroundImage = `url('${photoPreview.src}')`;
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      photoPreview.src = reader.result;
+      effectsPreview.forEach((preview) => {
+        preview.style.backgroundImage = `url(${reader.result})`;
+      });
     });
+    reader.readAsDataURL(file);
   }
-});
+};
+
+fileChooser.addEventListener('change', onUploadImageChange);

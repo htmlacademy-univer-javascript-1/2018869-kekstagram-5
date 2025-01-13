@@ -1,7 +1,7 @@
 import { showSuccessMessage, isEscapeKey, showErrorMessage} from './utils.js';
 import { sendData } from './api.js';
 import { pristine } from './validation.js';
-import { createPicture } from './render.js';
+import {resetScale, resetEffects} from './effects.js';
 
 
 const form = document.querySelector('.img-upload__form');
@@ -9,7 +9,7 @@ const uploadFile = form.querySelector('#upload-file');
 const uploadOverlay = form.querySelector('.img-upload__overlay');
 const uploadCloseButton = form.querySelector('#upload-cancel');
 const body = document.querySelector('body');
-const submitButton = document.querySelector('.img-upload__submit');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const closeUploadOverlay = () => {
   form.reset();
@@ -17,6 +17,8 @@ const closeUploadOverlay = () => {
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown',isEscapeKey);
+  resetScale();
+  resetEffects();
 };
 
 const isTextFieldFocused = () =>
@@ -49,12 +51,10 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const onSendDataSuccess = (newPost) => {
+
+const onSendDataSuccess = () => {
   closeUploadOverlay();
   showSuccessMessage();
-  const picturesContainer = document.querySelector('.pictures');
-  const newPictureElement = createPicture(newPost);
-  picturesContainer.prepend(newPictureElement);
 };
 
 const onSendDataError = () => {

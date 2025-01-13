@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
+
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const successButton = successTemplate.querySelector('.success__button');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');

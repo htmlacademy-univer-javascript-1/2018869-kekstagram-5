@@ -4,6 +4,14 @@ const SCALE_STEP = 25;
 const MIN_SCALE = 25;
 const DEFAULT_SCALE = 100;
 
+const form = document.querySelector('.img-upload__form');
+const scaleInput = form.querySelector('.scale__control--value');
+const smallerButton = form.querySelector('.scale__control--smaller');
+const biggerButton = form.querySelector('.scale__control--bigger');
+const image = form.querySelector('.img-upload__preview img');
+const slider = form.querySelector('.effect-level__slider');
+const effectLevelContainer = form.querySelector('.img-upload__effect-level');
+
 const EFFECTS = [
   {
     name: 'none',
@@ -53,14 +61,6 @@ const EFFECTS = [
     unit: ' ',
   },
 ];
-
-const form = document.querySelector('.img-upload__form');
-const scaleInput = form.querySelector('.scale__control--value');
-const smallerButton = form.querySelector('.scale__control--smaller');
-const biggerButton = form.querySelector('.scale__control--bigger');
-const image = form.querySelector('.img-upload__preview img');
-const slider = form.querySelector('.effect-level__slider');
-const effectLevelContainer = form.querySelector('.img-upload__effect-level');
 
 const DEFAULT_EFFECT = EFFECTS[0];
 let currentEffect = DEFAULT_EFFECT;
@@ -149,4 +149,11 @@ const resetScale = () => {
   scaleImage(DEFAULT_SCALE);
 };
 
-export {resetScale};
+const resetEffects = () => {
+  currentEffect = DEFAULT_EFFECT;
+  updateSlider(currentEffect);
+  image.style.filter = 'none';
+  image.className = '';
+};
+
+export {resetScale, resetEffects};

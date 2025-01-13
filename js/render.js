@@ -9,12 +9,15 @@ const createPicture = (data) => {
 
   picture.querySelector('.picture__img').src = url;
   picture.querySelector('.picture__img').alt = description;
-  picture.querySelector('.picture__comments').textContent = comments.length || 0;
+  picture.querySelector('.picture__comments').textContent = comments.length;
   picture.querySelector('.picture__likes').textContent = likes;
 
-  picture.addEventListener('click', () => {
+  const onPictureElementClick = (evt) => {
+    evt.preventDefault();
     openBigPicture(data);
-  });
+  };
+
+  picture.addEventListener('click', onPictureElementClick);
 
   return picture;
 };
@@ -27,7 +30,7 @@ const renderPictures = (pictures) => {
     fragment.append(pictureElement);
   });
 
-  picturesContainer.append(fragment);
+  picturesContainer.appendChild(fragment);
 };
 
 export { renderPictures, createPicture };
