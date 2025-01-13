@@ -1,14 +1,14 @@
 import { isEscapeKey } from './utils.js';
 import { resetScale } from './effects.js';
 
-const body = document.querySelector('body');
-const closeButton = document.querySelector('.big-picture__cancel');
-const bigPicture = document.querySelector('.big-picture');
-const commentsList = document.querySelector('.social__comments');
-const commentsLoader = document.querySelector('.comments-loader');
-const socialComments = document.querySelector('.social__comment-count');
-
 const COMMENTS_GROUP = 5;
+
+const body = document.querySelector('body');
+const bigPicture = document.querySelector('.big-picture');
+const closeButton = bigPicture.querySelector('.big-picture__cancel');
+const commentsList = bigPicture.querySelector('.social__comments');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
+const socialComments = bigPicture.querySelector('.social__comment-count');
 
 let commentsShown = 0;
 let comments = [];

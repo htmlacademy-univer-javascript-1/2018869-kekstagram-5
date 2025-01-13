@@ -1,13 +1,13 @@
 import { renderPictures } from './render.js';
 import { debounce } from './utils.js';
 
+const PICTURES_COUNT = 10;
+
 const Filter = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed',
 };
-
-const PICTURES_COUNT = 10;
 
 const filtersElement = document.querySelector('.img-filters');
 

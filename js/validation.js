@@ -20,11 +20,11 @@ const pristine = new Pristine(uploadForm, {
 });
 
 const validateHashtags = (value) => {
-  if (value === undefined) {
+  if (!value.trim()) {
     return true;
   }
 
-  const hashtags = value.split(/\s+/).filter(Boolean);
+  const hashtags = value.split(/\s+/);
 
   if (hashtags.length > MAX_HASHTAG_COUNT) {
     errorType = 'invalidCount';

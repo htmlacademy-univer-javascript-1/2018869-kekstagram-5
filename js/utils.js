@@ -1,24 +1,6 @@
+const ALERT_SHOW_TIME = 5000;
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const successButton = successTemplate.querySelector('.success__button');
-const ALERT_SHOW_TIME = 5000;
-
-function getRandomPositiveInteger (a, b = 0) {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-}
-
-const getRandomArrayElement = (elements) =>
-  elements[getRandomPositiveInteger(0, elements.length - 1)];
-
-function createIdGenerator() {
-  let lastGeneratedId = 0;
-  return function() {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-}
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
@@ -62,10 +44,7 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-export { getRandomPositiveInteger,
-  getRandomArrayElement,
-  createIdGenerator,
-  isEscapeKey,
+export { isEscapeKey,
   showAlert,
   successMessage,
   debounce };
